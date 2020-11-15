@@ -53,7 +53,8 @@ namespace Sorting.Controllers
                 Environment.NewLine + "Record by ID: " + "\"\\{id}\"" +
                 Environment.NewLine + "Latest record: " + "\"\\latestRecord\"" +
                 Environment.NewLine + "Sort new list: POST to \"\\\" with JSON payload \"{ \"InputData\": [int array] }\"" +
-                Environment.NewLine + "Delete record: DELETE to \"\\{id}\"");
+                Environment.NewLine + "Delete record: DELETE to \"\\{id}\"" + 
+                Environment.NewLine + "Delete to " + "\"\\all\"");
         }
 
         [HttpGet("latestRecord")] // Returns latest record
