@@ -14,7 +14,7 @@ namespace Tests
         {
             _controller = new SortingController();
         }
-
+        #region Tests for requested functionality
         [Fact]
         public void Get_WhenCalled_ReturnsOkResult()
         {
@@ -22,6 +22,42 @@ namespace Tests
             Assert.IsType<OkObjectResult>(vResult.Result);
         }
 
+        [Fact]
+        public void SortArray_ReturnOkResult()
+        {
+            int[] vItemArray = new int[] { 10, 1, 26, 13, 3, 6, 48, -1 };
+            var vResult = _controller.SortNumbersList(new DataToSort { InputData = vItemArray });
+            Assert.IsType<OkObjectResult>(vResult.Result);
+            _controller.DeleteAllFiles();
+        }
+
+        [Fact]
+        public void SortEmptyArray_Returns_BadRequest()
+        {
+            int[] vItemArray = new int[] { };
+            var vResult = _controller.SortNumbersList(new DataToSort { InputData = vItemArray });
+            Assert.IsType<BadRequestResult>(vResult.Result);
+        }
+
+        [Fact]
+        public void GetLastRecord_WhenEmpty_ReturnsNotFound()
+        {
+            var vResult = _controller.GetLastSortRecord();
+            Assert.IsType<NotFoundObjectResult>(vResult.Result);
+        }
+
+        [Fact]
+        public void GetLastRecord_WhenNotEmpty_ReturnsOkResult()
+        {
+            int[] vItemArray = new int[] { 10, 1, 26, 13, 3, 6, 48, -1 };
+            _controller.SortNumbersList(new DataToSort { InputData = vItemArray });
+            var vResult = _controller.GetLastSortRecord();
+            Assert.IsType<OkObjectResult>(vResult.Result);
+            _controller.DeleteAllFiles();
+        }
+        #endregion
+
+        #region Tests for additional functionality
         [Fact]
         public void GetList_WhenEmpty_ReturnsNotFound()
         {
@@ -35,13 +71,6 @@ namespace Tests
         {
             int vTestID = -1;
             var vResult = _controller.GetRecord(vTestID);
-            Assert.IsType<NotFoundObjectResult>(vResult.Result);
-        }
-
-        [Fact]
-        public void GetLastRecord_WhenEmpty_Returns()
-        {
-            var vResult = _controller.GetLastSortRecord();
             Assert.IsType<NotFoundObjectResult>(vResult.Result);
         }
 
@@ -65,22 +94,6 @@ namespace Tests
         {
             var vResult = _controller.DeleteRecord(-1);
             Assert.IsType<NotFoundObjectResult>(vResult.Result);
-        }
-
-        [Fact] public void SortArray_ReturnOkResult()
-        {
-            int[] vItemArray = new int[]{ 10, 1, 26, 13, 3, 6, 48, -1 };
-            var vResult = _controller.SortNumbersList(new DataToSort { InputData = vItemArray });
-            Assert.IsType<OkObjectResult>(vResult.Result);
-            _controller.DeleteAllFiles();
-        }
-
-        [Fact]
-        public void SortEmptyArray_Returns_BadRequest()
-        {
-            int[] vItemArray = new int[] {};
-            var vResult = _controller.SortNumbersList(new DataToSort { InputData = vItemArray });
-            Assert.IsType<BadRequestResult>(vResult.Result);
         }
 
         [Fact]
@@ -121,5 +134,6 @@ namespace Tests
             var vResult = _controller.DeleteAllFiles();
             Assert.IsType<OkObjectResult>(vResult.Result);
         }
+        #endregion
     }
 }

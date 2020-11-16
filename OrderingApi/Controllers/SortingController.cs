@@ -15,6 +15,7 @@ namespace Sorting.Controllers
     {
         private FilesHelper gFilesHelper = new FilesHelper();
 
+        #region Requested functionality
         [HttpPost] // Sorts passed list and saves to file
         public ActionResult<string> SortNumbersList([FromBody] DataToSort pDataToSort)
         {
@@ -44,19 +45,6 @@ namespace Sorting.Controllers
             }
         }
 
-        [HttpGet] // Returns all endpoins
-        public ActionResult<string> GetEndpointsList()
-        {
-            return Ok("EndpointsList:" +
-                Environment.NewLine + "Endpoints list: \"\\\"" + 
-                Environment.NewLine + "Records list: " + "\"\\list\"" +
-                Environment.NewLine + "Record by ID: " + "\"\\{id}\"" +
-                Environment.NewLine + "Latest record: " + "\"\\latestRecord\"" +
-                Environment.NewLine + "Sort new list: POST to \"\\\" with JSON payload \"{ \"InputData\": [int array] }\"" +
-                Environment.NewLine + "Delete record: DELETE to \"\\{id}\"" + 
-                Environment.NewLine + "Delete to " + "\"\\all\"");
-        }
-
         [HttpGet("latestRecord")] // Returns latest record
         public ActionResult<string> GetLastSortRecord()
         {
@@ -69,6 +57,21 @@ namespace Sorting.Controllers
                 return NotFound(ex.Message);
             }
         }
+        #endregion
+
+        #region Additional functionality
+        [HttpGet] // Returns all endpoins
+        public ActionResult<string> GetEndpointsList()
+        {
+            return Ok("EndpointsList:" +
+                Environment.NewLine + "Endpoints list: \"\\\"" + 
+                Environment.NewLine + "Records list: " + "\"\\list\"" +
+                Environment.NewLine + "Record by ID: " + "\"\\{id}\"" +
+                Environment.NewLine + "Latest record: " + "\"\\latestRecord\"" +
+                Environment.NewLine + "Sort new list: POST to \"\\\" with JSON payload \"{ \"InputData\": [int array] }\"" +
+                Environment.NewLine + "Delete record: DELETE to \"\\{id}\"" + 
+                Environment.NewLine + "Delete to " + "\"\\all\"");
+        }  
 
         [HttpGet("list")] // Returns of all available records
         public ActionResult<string> GetListOfRecords()
@@ -120,5 +123,6 @@ namespace Sorting.Controllers
                 return NotFound(ex.Message);
             }
         }
+        #endregion
     }
 }
